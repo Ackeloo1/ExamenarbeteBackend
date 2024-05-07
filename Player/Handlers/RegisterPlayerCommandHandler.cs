@@ -29,7 +29,8 @@ namespace TestMediatR1.Player.Handlers
             var newPlayer = new PlayerModel
             {
                 Username = request.Username,
-                Password = request.Password
+                Password = request.Password,
+                Score = request.Score
             };
 
             _context.tblPlayer.Add(newPlayer);

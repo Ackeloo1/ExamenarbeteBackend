@@ -7,7 +7,6 @@ namespace TestMediatR1.Item.Models
         public int Id { get; set; }
         public string Name { get; set; } 
         public string Effect { get; set; }
-        public int Quantity { get; set; }
     }
 
     public class PlayerItemsModel

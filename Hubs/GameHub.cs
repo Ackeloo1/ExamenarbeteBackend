@@ -78,24 +78,27 @@ namespace TestMediatR1.Hubs
             await Clients.Group(gameId).SendAsync("ItemUsedMessage", playerName + " Used a " + itemToRemove!.Name + "!");
         }
 
-        public async Task Shoot(GameModel game, string playerName, int type, int consumable = 0)
+        public async Task Shoot(GameModel game, string playerName, int type, string playerTurn, int consumable = 0)
         {
-            var gameResult = new GameModel();
+            var turn = playerTurn == game.Players![0].Name ? game.Players[1].Name : game.Players[0].Name;
             int damage = 1;
+            var gameResult = new GameModel();
             gameResult.Bullets = game.Bullets;
-
-            //Om det blir riktig kula som skjuts
-            if(consumable == 1 && type == 1)
-            {
-                damage = 2;
-                gameResult.Bullets.Bullets -= 1;
-            }
 
             //Om det blir blank kula som skjuts
             if (type == 0)
             {
                 damage = 0;
                 gameResult.Bullets.Blanks -= 1;
+            }
+
+            //Om det blir riktig kula som skjuts och spelaren använde en såg
+            if(type == 1)
+            {
+                if (consumable == 1)
+                    damage = 2;
+
+                gameResult.Bullets.Bullets -= 1;
             }
 
             //Dra av liv från spelare som blev skjuten, kan inte gå minus på liv
@@ -108,9 +111,27 @@ namespace TestMediatR1.Hubs
                     player.Health = 0;
             }
 
+            //Ställa om ifall någon spelare nått 0 liv
+            if(game.Players.Any(p => p.Health == 0))
+            {
+                Random rdn = new Random();
+                var health = rdn.Next(3, 6);
+
+                foreach(var updatedPlayer in game.Players)
+                {
+                    updatedPlayer.Health = health;
+                }
+            }
+
+            if(gameResult.Bullets.Bullets == 0 && gameResult.Bullets.Blanks == 0)
+            {
+                gameResult.Bullets = _gameService.GenerateBullets();
+            }
+
             gameResult.GameId = game.GameId;
             gameResult.Players = game.Players;
 
+            await Clients.Group(game.GameId!).SendAsync("PlayerTurn", turn);
             await Clients.Group(game.GameId!).SendAsync("ShootResult", gameResult);
         }
     }

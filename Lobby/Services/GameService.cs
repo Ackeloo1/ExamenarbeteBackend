@@ -30,7 +30,7 @@ namespace TestMediatR1.Lobby.Services
             game.Players = new List<PlayerProps>();
             game.Bullets = GenerateBullets();
 
-            var health = Random.Shared.Next(1, 4);
+            var health = Random.Shared.Next(3, 6);
 
             var query = new GetAllItemIdsQuery();
             var itemIds = await _mediator.Send(query);
@@ -78,5 +78,38 @@ namespace TestMediatR1.Lobby.Services
 
             return result;
         }
+
+        //public void ProcessShoot(GameModel game, string playerName, int type, int consumable = 0)
+        //{
+        //    var player = game.Players.FirstOrDefault(p => p.Name == playerName);
+        //    if (player == null)
+        //        return;
+
+        //    int damage = CalculateDamage(type, consumable);
+        //    UpdateBullets(game.Bullets, type, consumable);
+        //    UpdatePlayerHealth(player, damage);
+
+        //    game.GameId = game.GameId;
+        //}
+
+        //private int CalculateDamage(int type, int consumable)
+        //{
+        //    return (type == 1 && consumable == 1) ? 2 : (type == 0 ? 0 : 1);
+        //}
+
+        //private void UpdateBullets(BulletsModel bullets, int type, int consumable)
+        //{
+        //    if (type == 1 && consumable == 1)
+        //        bullets.Bullets -= 1;
+        //    else if (type == 0)
+        //        bullets.Blanks -= 1;
+        //}
+
+        //private void UpdatePlayerHealth(PlayerProps player, int damage)
+        //{
+        //    player.Health -= damage;
+        //    if (player.Health < 0)
+        //        player.Health = 0;
+        //}
     }
 }
