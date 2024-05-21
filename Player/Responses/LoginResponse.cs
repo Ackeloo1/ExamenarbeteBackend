@@ -1,6 +1,4 @@
-﻿using TestMediatR1.Player.Models;
-
-namespace TestMediatR1.Player.Responses
+﻿namespace TestMediatR1.Player.Responses
 {
     public class LoginResponse
     {

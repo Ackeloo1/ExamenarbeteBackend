@@ -18,8 +18,8 @@ namespace TestMediatR1.Item.Handlers
         {
             var newItem = new ItemModel
             {
-                Name = request.Name,
-                Effect = request.Effect
+                Name = request.Name!,
+                Effect = request.Effect!
             };
 
             _context.tblItem.Add(newItem);

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using TestMediatR1.DbContext;
 using TestMediatR1.Player.Commands;
 using TestMediatR1.Player.Models;
-using TestMediatR1.Services;
 
 namespace TestMediatR1.Player.Handlers
 {

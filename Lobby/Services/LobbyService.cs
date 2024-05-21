@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using TestMediatR1.Game;
-using TestMediatR1.Lobby.Models;
-using TestMediatR1.Player.Models;
+﻿using TestMediatR1.Lobby.Models;
 
 namespace TestMediatR1.Lobby.Services
 {
@@ -38,14 +34,13 @@ namespace TestMediatR1.Lobby.Services
             return GetLobbies();
         }
 
-        public async Task<LobbyModel> RemoveLobby(string gameId)
+        public void RemoveLobby(string gameId)
         {
             var target = _lobbies.Where(i => i.GameId == gameId).FirstOrDefault();
             if (target == null) 
-                return null;
+                return;
 
             _lobbies.Remove(target);
-            return target;
         }
     }
 }

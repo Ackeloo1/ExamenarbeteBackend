@@ -1,12 +1,14 @@
-﻿using TestMediatR1.Player.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using TestMediatR1.Player.Models;
 
 namespace TestMediatR1.Item.Models
 {
     public class ItemModel
     {
+        [Key]
         public int Id { get; set; }
-        public string Name { get; set; } 
-        public string Effect { get; set; }
+        public string? Name { get; set; } 
+        public string? Effect { get; set; }
     }
 
     public class PlayerItemsModel

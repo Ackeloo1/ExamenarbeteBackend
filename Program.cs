@@ -1,19 +1,16 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using TestMediatR1.DbContext;
-using MediatR;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Text;
+using TestMediatR1.DbContext;
+using TestMediatR1.Game.Services;
 using TestMediatR1.Hubs;
 using TestMediatR1.Lobby.Services;
-using TestMediatR1.Services;
-using TestMediatR1.Player.Services;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using TestMediatR1.Middlewares;
+using TestMediatR1.Player.Services;
+using TestMediatR1.Services;
 
 namespace TestMediatR1
 {

@@ -6,7 +6,7 @@ namespace TestMediatR1.Extensions
     {
         public static string GetClaim(this HttpContext context, string type)
         {
-            string jwt = context.Request.Headers["Authorization"];
+            string jwt = context.Request.Headers["Authorization"]!;
     
             if (jwt == null)
                 return null!;

@@ -1,6 +1,4 @@
-﻿using TestMediatR1.Player.Models;
-
-namespace TestMediatR1.Lobby.Models
+﻿namespace TestMediatR1.Lobby.Models
 {
     public class LobbyModel
     {

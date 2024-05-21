@@ -6,15 +6,22 @@ namespace TestMediatR1.Middlewares
     {
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            if (!context.Request.Query.TryGetValue("authorization", out StringValues values))
+            if (!context.Request.Headers.TryGetValue("Upgrade", out StringValues upgradeValue) && upgradeValue != "websocket")
             {
                 await next(context);
+                return;
             }
-            else
+
+            if (!context.Request.Query.TryGetValue("authorization", out StringValues authorizationValue))
             {
-                context.Request.Headers.Add("authorization", "Bearer " + values.ToString());
-                await next(context);
+                context.Response.StatusCode = 400;
+                return;
             }
+
+            context.Request.Headers.Authorization = authorizationValue;
+
+            await next(context);
+            return;
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 using TestMediatR1.DbContext;
 using TestMediatR1.Player.Commands;
 using TestMediatR1.Player.Responses;
-using BCrypt.Net;
 using TestMediatR1.Services;
 
 namespace TestMediatR1.Player.Handlers
@@ -26,12 +27,21 @@ namespace TestMediatR1.Player.Handlers
             if (player == null)
                 return new LoginResponse(false, "");
             
-            if (request.Password != player.Password)
+            if (HashPassword(request.Password) != player.Password)
                 return new LoginResponse(false, "");
 
             var token = await _jwtService.GenerateAsync(player.Id);
 
             return new LoginResponse(true, token);
+        }
+
+        private string HashPassword(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return Convert.ToBase64String(hashedBytes);
+            }
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 using TestMediatR1.DbContext;
 using TestMediatR1.Player.Commands;
 using TestMediatR1.Player.Models;
 using TestMediatR1.Player.Responses;
-using BCrypt.Net;
 
 namespace TestMediatR1.Player.Handlers
 {
@@ -26,16 +27,39 @@ namespace TestMediatR1.Player.Handlers
                 return new RegisterResponse(false, "Username already exists.");
             }
 
-            var newPlayer = new PlayerModel
+            var hashedPassword = HashPassword(request.Password);
+
+            var playerScore = new PlayerScore
             {
-                Username = request.Username,
-                Password = request.Password,
-                Score = request.Score
+                Score = 0,
+                TotalWins = 0,
+                TotalLosses = 0
             };
 
-            _context.tblPlayer.Add(newPlayer);
+            //await _context.tblScore.AddAsync(playerScore);
+
+            Console.WriteLine(playerScore.ScoreId);
+
+            var player = new PlayerModel
+            {
+                Username = request.Username,
+                Password = hashedPassword,
+                Score = playerScore
+            };
+
+            await _context.tblPlayer.AddAsync(player);
             await _context.SaveChangesAsync();
+
             return new RegisterResponse(true, "Player registered successfully.");
+        }
+
+        private string HashPassword(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return Convert.ToBase64String(hashedBytes);
+            }
         }
     }
 }

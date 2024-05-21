@@ -5,6 +5,6 @@ namespace TestMediatR1.Player.Commands
 {
     public class GetPlayersByIdCommand : IRequest<List<PlayerModel>>
     {
-        public List<int> Ids { get; set; }
+        public List<int>? Ids { get; set; }
     }
 }

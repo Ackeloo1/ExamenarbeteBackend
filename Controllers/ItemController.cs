@@ -1,10 +1,9 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using TestMediatR1.Item.Queries;
-using TestMediatR1.Item.Models;
-using TestMediatR1.Item.Commands;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using TestMediatR1.Item.Commands;
+using TestMediatR1.Item.Models;
+using TestMediatR1.Item.Queries;
 
 namespace TestMediatR1.Controllers
 {
@@ -19,7 +18,6 @@ namespace TestMediatR1.Controllers
             _mediator = mediator;
         }
 
-        [Authorize]
         [HttpGet("GetItems")]
         public async Task<ActionResult<List<ItemModel>>> GetAllItems()
         {

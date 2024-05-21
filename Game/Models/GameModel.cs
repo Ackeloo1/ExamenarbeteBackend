@@ -1,19 +1,19 @@
 ﻿using TestMediatR1.Player.Models;
 
-namespace TestMediatR1.Game
+namespace TestMediatR1.Game.Models
 {
     public class GameModel
     {
         public string? GameId { get; set; }
         public List<PlayerProps>? Players { get; set; }
-        public BulletsModel Bullets { get; set; }
+        public BulletsModel? Bullets { get; set; }
     }
 
     public class GameStartResponse
     {
         public List<PlayerProps>? Players { get; set; }
         public string? GameId { get; set; }
-        public BulletsModel Bullets { get; set; }
+        public BulletsModel? Bullets { get; set; }
 
         public static implicit operator GameStartResponse(GameModel model)
         {
@@ -30,5 +30,11 @@ namespace TestMediatR1.Game
     {
         public int Bullets { get; set; }
         public int Blanks { get; set; }
+    }
+
+    public class ResultModel
+    {
+        public string? WinnerName { get; set; }
+        public string? LoserName { get; set; }
     }
 }
